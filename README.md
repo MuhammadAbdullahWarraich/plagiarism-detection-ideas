@@ -29,7 +29,7 @@ it is very easy to see how we can programmatically convert branch-ful to branch-
 
 One important thing to note is that we can go back as far as we want with eliminating branches, but we can't obviously modify code that we don't own like libraries unless we vendor our dependencies. But in the context of plagiarism detection, modifying dependencies would look like a deliberate attempt to change code, so we won't do that here.
 
-It is also not possible to eliminate code in case of system calls because that code is owned by kernel space and we don't have access to that(unless we are using MS DOS or we also add our own OS with the assignment, haha).
+It is also not possible to eliminate code in case of system calls because that code is owned by kernel space and we don't have access to that(unless we are using MS DOS(MS DOS doesn't have user-kernel memory protection) or we also add our own OS with the assignment, which is very unlikely).
 
 For lots of else if's, we can repeat the above process but this flag will be changed like this:
 ```C
