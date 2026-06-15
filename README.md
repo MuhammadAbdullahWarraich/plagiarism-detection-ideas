@@ -117,6 +117,8 @@ if (c1) {
 
 Compile a piece of code, then use a reverse engineering tool to reverse engineer it back to the original language. Most probably the code will be different enough to pass as someone else's. This will also probably remove templated code without much effort. For making many versions of code, you can compile with different optimization flags before reverse engineering(this will cause different degrees of inlining, compile-time expression evaluation, etc) or different compilers, or adding more stages of compile-decompile with different languages(for example C -> machine code -> haskell -> machine code -> OCaml -> machine code -> Rust -> machine code -> C) et cetera. Note that reverse engineering may make really wierd machine-y identifier names due to name normalization, so you can just take the help of LLMs to make a suitable set of variable and function names.
 
+Note that for the compile part in the above discussion we don't need to go down until machine code. JVM-based languages can be compiled down until Java bytecode instead of machine code, and since most modern languages support LLVM, we can compile down to LLVM IR instead of machine code.
+
 ### 6. Converting between exception control flow and errors as values
 
 ### 7. converting betweeen RAII and arena allocators
