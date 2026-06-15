@@ -19,7 +19,7 @@ int x = initialize_x();
 int y = initialize_y();
 
 bool flag = condition;
-x = tmp * !condition + 10 * condition;
+x = x * !condition + 10 * condition;
 y += 15 * flag;
 mutate_x_optionally(&x, condition); // void mutate_x_optionally(int *x, bool condition) { *x += 100 * condition; }
 ```
