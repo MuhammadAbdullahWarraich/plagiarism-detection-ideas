@@ -68,3 +68,42 @@ modified_code_3; // modify for flag
 ```
 2. Selective branch removal and Hints to CPU branch predictor
 If you don't want to make a large number of copies of your code, you can be smart about your branch removal to make the use of branchless programming seem more natural. But fret not, we still can do it automatically! We can run the program over and over again and analyze which condition was hit more for each set of conditionals. We can do that naively by just putting a print statement in each condition and then analyzing logs to identify frequencies of different conditions being hit over multiple program runs with different inputs. Then we can remove branches which get hit most. We can optionally also put specifiers (like [[likely]] in case of C) to signal to the CPU branch predictor that this branch is likely, which would show to the evaluator of the assignment that you are a cracked programmer who knows a lot about optimization, but in reality it is my technique that helped the student.
+3. Transforming boolean expressions
+Continuing our arc on transforming if-statements, we can convert one condition into a different looking but logically equivalent boolean expression. For this purpose, we need to have a dictionary of boolean identities, and we need to search the syntax tree of the condition for patterns equal to one side of those identities. And when a match hits, we can replace the matching side of the identity with the other side of the identity. This way we can fake different ways of forming conditions for different students' versions of the assignment. You can mimic smart students by only transforming when the replacement is shorter than the original, or oversmart students(some people admire complexity) by only transforming when the replacement is longer.
+4. Converting nested conditionals into flat conditionals
+This is a simpler one to implement, but really changes the look of your code. You can understand how to do it from the following example:
+```C
+if (c1) {
+  some_code_1;
+  if (c2) {
+    some_code_2;
+  }
+  some_code_3;
+}
+```
+This will become:
+```C
+if (c1) {
+  some_code_1;
+}
+if (c1 && c2) {
+  some_code_2;
+}
+if (c1) {
+  some_code_3;
+}
+```
+For converting flat to nested, just convert like the following:
+```C
+if (c1 && c2) {
+  do_some_things;
+}
+```
+Convert to:
+```C
+if (c1) {
+  if (c2) {
+    do_some_things;
+  }
+}
+```
