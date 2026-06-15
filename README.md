@@ -67,10 +67,13 @@ modified_code_2; // modify for flag2
 modified_code_3; // modify for flag
 ```
 2. Selective branch removal and Hints to CPU branch predictor
+
 If you don't want to make a large number of copies of your code, you can be smart about your branch removal to make the use of branchless programming seem more natural. But fret not, we still can do it automatically! We can run the program over and over again and analyze which condition was hit more for each set of conditionals. We can do that naively by just putting a print statement in each condition and then analyzing logs to identify frequencies of different conditions being hit over multiple program runs with different inputs. Then we can remove branches which get hit most. We can optionally also put specifiers (like [[likely]] in case of C) to signal to the CPU branch predictor that this branch is likely, which would show to the evaluator of the assignment that you are a cracked programmer who knows a lot about optimization, but in reality it is my technique that helped the student.
-3. Transforming boolean expressions
+4. Transforming boolean expressions
+
 Continuing our arc on transforming if-statements, we can convert one condition into a different looking but logically equivalent boolean expression. For this purpose, we need to have a dictionary of boolean identities, and we need to search the syntax tree of the condition for patterns equal to one side of those identities. And when a match hits, we can replace the matching side of the identity with the other side of the identity. This way we can fake different ways of forming conditions for different students' versions of the assignment. You can mimic smart students by only transforming when the replacement is shorter than the original, or oversmart students(some people admire complexity) by only transforming when the replacement is longer.
-4. Converting nested conditionals into flat conditionals
+5. Converting nested conditionals into flat conditionals
+
 This is a simpler one to implement, but really changes the look of your code. You can understand how to do it from the following example:
 ```C
 if (c1) {
@@ -107,3 +110,11 @@ if (c1) {
   }
 }
 ```
+6. (needs to be tried out first) Using reverse engineering to change code
+
+Compile a piece of code, then use a reverse engineering tool to reverse engineer it back to the original language. Most probably the code will be different enough to pass as someone else's. This will also probably remove templated code without much effort. For making many versions of code, you can compile with different optimization flags before reverse engineering(this will cause different degrees of inlining, compile-time expression evaluation, etc) or different compilers, or adding more stages of compile-decompile with different languages(for example C -> machine code -> haskell -> machine code -> OCaml -> machine code -> Rust -> machine code -> C) et cetera. Note that reverse engineering may make really wierd machine-y identifier names due to name normalization, so you can just take the help of LLMs to make a suitable set of variable and function names.
+
+7. Converting between exception control flow and errors as values
+8. converting betweeen RAII and arena allocators
+9. converting AoS to SoA and vice versa (just copy how OdinLang compiler does it, no need to invent an approach from scratch)
+10. do varying degrees of monomorphized code, and abstract common code into functions (identify common code by using subtree comparison of name-normalized ASTs)
