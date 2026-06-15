@@ -139,7 +139,7 @@ void bar() {
 }
 ```
 
-We can transform both in classic C style by using tagged unions:
+We can either transform in classic C style by using tagged unions:
 ```C++
 typedef enum {
   ZeroedFields,
@@ -191,7 +191,7 @@ VoidRes bar() noexcept {
   // ...
 }
 ```
-as well as using modern C++ features like std::variant or std::expected:
+or transform by using modern C++ features like std::variant or std::expected:
 ```C++
 // TODO
 ```
