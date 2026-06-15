@@ -121,6 +121,82 @@ Note that for the compile part in the above discussion we don't need to go down 
 
 ### 6. Converting between exception control flow and errors as values
 
+Example:
+```C++
+vector<int> foo(int x, int y, int z) {
+  if (x == 0 || y == 0 || z == 0) throw runtime_error("zero not allowed");
+  return {x, y, z};
+}
+void bar() {
+  int x, y, z;
+  cin >> x >> y >> z;
+  try {
+    vector<int> v = foo(x, y, z);
+  } catch (const runtime_error &e) {
+    exit(1);
+  }
+  vector<int> v2 = foo(x, y, z); // exception will be caught by caller of bar
+}
+```
+
+We can transform both in classic C style by using tagged unions:
+```C++
+typedef enum {
+  ZeroedFields,
+  Success
+} ResType;
+
+typedef struct {
+  ResType t;
+  union {
+    vector<int> val;
+    const char *error_msg;
+  } ret_val;
+} VectorRes;
+
+typedef struct {
+  ResType t;
+  const char *error_msg;
+} VoidRes;
+
+VectorRes foo(int x, int y, int z) noexcept {
+  if (x == 0 || y == 0 || z == 0) {
+    return (VectorRes) {
+      .t = ResType::ZeroedFields,
+      .ret_val.error_msg = "zero not allowed"
+    };
+  }
+  return (VectorRes) {
+    .t = ResType::Success,
+    .ret_val.val = {x, y, z}
+  };
+}
+VoidRes bar() noexcept {
+  int x, y, z;
+  cin >> x >> y >> z;
+  VectorRes ans = foo(x, y, z);
+  if (ans.t == ResType::ZeroedFields) {
+    exit(1);
+  }
+  vector<int> v = ans.ret_val.val;
+  // ...
+  ans = foo(x, y, z);
+  if (v2.t == ResType::ZeroedFields) {
+    return (VoidRes) {
+      .t = v2.t,
+      .error_msg = v2.ret_val.error_msg
+    };
+  }
+  vector<int> v2 = ans.ret_val.val;
+  // ...
+}
+```
+as well as using modern C++ features like std::variant or std::expected:
+```C++
+// TODO
+```
+Languages like Rust have std::panic and std::panic::catch_unwind instead of exceptions, and better support for errors as values via the Result<T, E> type, but the core idea is the same as above. Of course, if a language supports only one paradigm, we can't take advantage of the above transformation.
+
 ### 7. converting betweeen RAII and arena allocators
 
 ### 8. converting AoS to SoA and vice versa (just copy how OdinLang compiler does it, no need to invent an approach from scratch)
