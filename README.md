@@ -66,3 +66,5 @@ bool flag2 = flag && c2;
 modified_code_2; // modify for flag2
 modified_code_3; // modify for flag
 ```
+2. Selective branch removal and Hints to CPU branch predictor
+If you don't want to make a large number of copies of your code, you can be smart about your branch removal to make the use of branchless programming seem more natural. But fret not, we still can do it automatically! We can run the program over and over again and analyze which condition was hit more for each set of conditionals. We can do that naively by just putting a print statement in each condition and then analyzing logs to identify frequencies of different conditions being hit over multiple program runs with different inputs. Then we can remove branches which get hit most. We can optionally also put specifiers (like [[likely]] in case of C) to signal to the CPU branch predictor that this branch is likely, which would show to the evaluator of the assignment that you are a cracked programmer who knows a lot about optimization, but in reality it is my technique that helped the student.
