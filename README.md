@@ -73,7 +73,7 @@ If you don't want to make a large number of copies of your code, you can be smar
 
 ### 3. Transforming boolean expressions
 
-Continuing our arc on transforming if-statements, we can convert one condition into a different looking but logically equivalent boolean expression. For this purpose, we need to have a dictionary of boolean identities, and we need to search the syntax tree of the condition for patterns equal to one side of those identities. And when a match hits, we can replace the matching side of the identity with the other side of the identity. This way we can fake different ways of forming conditions for different students' versions of the assignment. You can mimic smart students by only transforming when the replacement is shorter than the original, or oversmart students(some people admire complexity) by only transforming when the replacement is longer.
+Continuing our arc on transforming if-statements, we can convert one condition into a different looking but logically equivalent boolean expression. For this purpose, we need to have a dictionary of boolean identities(eg. De Morgan's Laws), and we need to search the syntax tree of the condition for patterns equal to one side of those identities. And when a match hits, we can replace the matching side of the identity with the other side of the identity. This way we can fake different ways of forming conditions for different students' versions of the assignment. You can mimic smart students by only transforming when the replacement is shorter than the original, or oversmart students(some people admire complexity) by only transforming when the replacement is longer.
 
 ### 4. Converting nested conditionals into flat conditionals
 
@@ -195,7 +195,7 @@ or transform by using modern C++ features like std::variant or std::expected:
 ```C++
 // TODO
 ```
-Languages like Rust have std::panic and std::panic::catch_unwind instead of exceptions, and better support for errors as values via the Result<T, E> type, but the core idea is the same as above. Of course, if a language supports only one paradigm, we can't take advantage of the above transformation.
+Languages like Rust have [panic](https://doc.rust-lang.org/std/macro.panic.html) and [std::panic::catch_unwind](https://doc.rust-lang.org/std/panic/fn.catch_unwind.html) instead of exceptions, and better support for errors as values via the Result<T, E> type, but the core idea is the same as above. Of course, if a language supports only one paradigm, we can't take advantage of the above transformation.
 
 ### 7. converting betweeen RAII and arena allocators
 
