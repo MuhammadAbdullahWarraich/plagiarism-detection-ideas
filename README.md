@@ -195,7 +195,7 @@ or transform by using modern C++ features like std::variant or std::expected:
 ```C++
 // TODO
 ```
-Languages like Rust have [panic](https://doc.rust-lang.org/std/macro.panic.html) and [std::panic::catch_unwind](https://doc.rust-lang.org/std/panic/fn.catch_unwind.html) (note: catch_unwind is not considered idiomatic Rust if you use it anywhere other than FFI) instead of exceptions, and really good support for errors as values(via the Result<T, E> and Option types, ? operator, et cetera), but the core idea is the same as above. Of course, if a language supports only one paradigm, we can't take advantage of the above transformation.
+Languages like Rust have [panic](https://doc.rust-lang.org/std/macro.panic.html) and [std::panic::catch_unwind](https://doc.rust-lang.org/std/panic/fn.catch_unwind.html) (note: catch_unwind is not considered idiomatic Rust if you use it anywhere other than FFI(for example, the Rust book, the official resource for learning rust, doesn't even mention it in the error handling chapter)) instead of exceptions, and really good support for errors as values(via the Result<T, E> and Option types, ? operator, et cetera), but the core idea is the same as above. Of course, if a language supports only one paradigm, we can't take advantage of the above transformation.
 
 ### 7. converting betweeen RAII and arena allocators
 
